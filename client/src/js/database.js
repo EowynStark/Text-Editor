@@ -12,11 +12,9 @@ const initdb = async () =>
     },
   });
 
-  const dbpromise = initdb();
-
 // method that accepts some content and adds it to the database
 export const putDb = async (content) => {
-  const db = await dbpromise;
+  const db = await initdb();
   const tx = db.transaction('jate', 'readwrite');
   const store = tx.objectStore('jate');
   await store.put(content);
@@ -25,10 +23,9 @@ export const putDb = async (content) => {
 
 // method that gets all the content from the database
 export const getDb = async () => {
-  const db = await dbpromise;
+  const db = await initdb();
   const tx = db.transaction('jate', 'readonly');
   const store = tx.objectStore('jate');
   await tx.done;
   return store.getAll();
 };
-
